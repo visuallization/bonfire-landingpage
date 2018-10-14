@@ -1,0 +1,84 @@
+{"frames": {
+
+"indian_01_body.png":
+{
+	"frame": {"x":2,"y":2,"w":260,"h":256},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":5,"w":260,"h":256},
+	"sourceSize": {"w":272,"h":266},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"indian_01_feather.png":
+{
+	"frame": {"x":2,"y":260,"w":67,"h":73},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":14,"w":67,"h":73},
+	"sourceSize": {"w":73,"h":89},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"indian_01_head.png":
+{
+	"frame": {"x":408,"y":236,"w":91,"h":93},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":8,"y":10,"w":91,"h":93},
+	"sourceSize": {"w":103,"h":106},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"indian_02_arm_left.png":
+{
+	"frame": {"x":264,"y":236,"w":142,"h":65},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":9,"y":36,"w":142,"h":65},
+	"sourceSize": {"w":158,"h":106},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"indian_02_arm_right.png":
+{
+	"frame": {"x":2,"y":416,"w":58,"h":60},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":5,"y":31,"w":58,"h":60},
+	"sourceSize": {"w":67,"h":106},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"indian_02_body.png":
+{
+	"frame": {"x":264,"y":2,"w":234,"h":232},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":27,"w":234,"h":232},
+	"sourceSize": {"w":235,"h":261},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"indian_02_feather.png":
+{
+	"frame": {"x":77,"y":260,"w":63,"h":71},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":18,"y":0,"w":63,"h":71},
+	"sourceSize": {"w":88,"h":74},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"indian_02_head.png":
+{
+	"frame": {"x":2,"y":329,"w":74,"h":85},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":17,"y":17,"w":74,"h":85},
+	"sourceSize": {"w":99,"h":106},
+	"pivot": {"x":0.5,"y":0.5}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "indians.png",
+	"format": "RGBA8888",
+	"size": {"w":512,"h":512},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:12e3854ba971e8b5f4f0da18a4c76fdb:c9147493f795550cd52820c867ad370d:dec46ad7b6e6358c0987fa64fe8befcd$"
+}
+}
