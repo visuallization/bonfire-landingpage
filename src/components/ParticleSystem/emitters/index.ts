@@ -1,3 +1,4 @@
-import firefly from './firefly';
+import spark from './spark';
+import trail from './trail';
 
-export { firefly };
+export { spark, trail };
