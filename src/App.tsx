@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Game, LoadingScreen } from './components';
+import { Game, LoadingScreen, ParticleSystem } from './components';
 
 import * as styles from './styles/styles.less';
 
@@ -51,6 +51,7 @@ class App extends React.Component<any, IAppState> {
         {this.renderContent()}
         {this.renderVideo()}
         <Game onLoaded={this.hideLoadingScreen}/>
+        <ParticleSystem />
       </div>
     );
   }

@@ -23,7 +23,6 @@ class Game extends React.Component<IGameProps, IGameState> {
   private app: PIXI.Application;
   private $canvas: HTMLCanvasElement;
 
-
   constructor(props: any) {
     super(props);
 
@@ -31,6 +30,7 @@ class Game extends React.Component<IGameProps, IGameState> {
       scale: 1
     };
   }
+
   public componentDidMount() {
     this.init();
 

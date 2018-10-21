@@ -21,6 +21,7 @@
     "html-webpack-plugin": "2.29.0",
     "jest": "22.4.2",
     "object-assign": "4.1.1",
+    "pixi-particles": "^3.1.0",
     "pixi.js": "^4.8.2",
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-loader": "2.0.8",

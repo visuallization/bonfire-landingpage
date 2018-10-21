@@ -11,6 +11,11 @@ body {
   font-family: 'Source Sans Pro', sans-serif;
   background-color: #000;
   color: #fff;
+
+  /* prevent mobile refresh on swipe down */
+  overflow-y: hidden;
+
+  cursor: pointer;
 }
 
 .app {
@@ -83,7 +88,7 @@ body {
   bottom: 0;
   z-index: 20;
 
-  background-color: #000;
+  background-color: #000;  
 
   opacity: 1;
   transition: opacity 0.5s ease;
@@ -112,4 +117,9 @@ body {
   transform: translate(-50%, -50%);
   font-size: 70px;
   cursor: pointer;
+  transition: color 2s ease;
+
+  &:hover {
+    color: #ff0000;
+  }
 }
