@@ -4,6 +4,8 @@ import { TimelineMax } from 'gsap';
 import 'gsap/PixiPlugin';
 
 import { createGradientTexture, scaleToWindow } from '../../lib';
+import { GRADIENT } from '../../constants';
+
 
 import * as styles from './styles.less';
 
@@ -71,10 +73,8 @@ class Game extends React.Component<IGameProps, IGameState> {
 
     PIXI.loader
       .add('background', './assets/sprites/background.png')
-      .add('vignette', './assets/sprites/vignette.png')
       .add('fire', './assets/sprites/fire.json')
       .add('indians', './assets/sprites/indians.json')
-      .add('glow', './assets/sprites/glow.png')
       .on('progress', this.showLoadingProgress)
       .load(this.setupGameScene);
   };
@@ -105,29 +105,41 @@ class Game extends React.Component<IGameProps, IGameState> {
       ])
     );
 
-    const background = new PIXI.Sprite(resources.background.texture);
-    const vignette = new PIXI.Sprite(resources.vignette.texture);
+    const vignette = new PIXI.Sprite(
+      createGradientTexture(scene.width, scene.height, [
+        'rgba(0,0,0,1)',
+        'rgba(0,0,0,0.2)'
+      ], GRADIENT.RADIAL)
+    );
 
-    const leftIndian = this.setupLeftIndian(resources.indians.textures);
-    const rightIndian = this.setupRightIndian(resources.indians.textures);
-    
-    const glow = new PIXI.Sprite(resources.glow.texture);
-
-    background.position.set(0, scene.height);
-    background.anchor.set(0, 1);
-
-    vignette.position.set(scene.width / 2, scene.height / 2);
-    vignette.anchor.set(0.5, 0.5);
-    vignette.scale.set(1.3, 1.6);
-    
-    const fire = this.setupFire(resources.fire.textures);
+    const glow = new PIXI.Sprite(
+      createGradientTexture(256, 256, [
+        'rgba(0,0,0,1)',
+        'rgba(255,255,255,1)'
+      ], GRADIENT.RADIAL, 2, 20)
+    );
 
     glow.position.set(0, scene.height);
     glow.anchor.set(0, 1);
     glow.scale.set(8.5, 4.4);
     glow.tint = 0xf20505;
-    glow.alpha = 0.5;
+    glow.alpha = 0.4;
     glow.blendMode = PIXI.BLEND_MODES.ADD;
+
+    vignette.anchor.set(0.5, 0.5);
+    vignette.position.set(scene.width / 2, (scene.height / 2) * 2.5);
+    vignette.scale.set(1.2, 4);
+
+    const background = new PIXI.Sprite(resources.background.texture);
+
+    const leftIndian = this.setupLeftIndian(resources.indians.textures);
+    const rightIndian = this.setupRightIndian(resources.indians.textures);
+    
+    background.position.set(0, scene.height);
+    background.anchor.set(0, 1);
+
+    
+    const fire = this.setupFire(resources.fire.textures);
 
     this.app.stage.addChild(gradient);
     this.app.stage.addChild(background);
