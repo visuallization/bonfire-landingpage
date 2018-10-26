@@ -108,7 +108,7 @@ class Game extends React.Component<IGameProps, IGameState> {
     const vignette = new PIXI.Sprite(
       createGradientTexture(scene.width, scene.height, [
         'rgba(0,0,0,1)',
-        'rgba(0,0,0,0)'
+        'rgba(0,0,0,0.2)'
       ], GRADIENT.RADIAL)
     );
 
