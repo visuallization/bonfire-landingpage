@@ -12,14 +12,15 @@ body {
   background-color: #000;
   color: #fff;
 
-  /* prevent mobile refresh on swipe down */
+  // prevent mobile refresh on swipe down
   overflow-y: hidden;
 
   cursor: pointer;
 }
 
 .app {
-  position: absolute;
+  // set to fixed to prevent IOS rubber band effect
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;

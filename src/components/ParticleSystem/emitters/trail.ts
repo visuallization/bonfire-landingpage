@@ -37,9 +37,9 @@ export default  {
     max: 0.6
   },  
   blendMode: "normal",
-  frequency: 0.0008,
+  frequency: 0.0002,
   emitterLifetime: -1,
-  maxParticles: 5000,
+  maxParticles: 7000,
   pos: {
     x: 0,
     y: 0
