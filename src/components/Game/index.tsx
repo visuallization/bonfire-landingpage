@@ -99,14 +99,14 @@ class Game extends React.Component<IGameProps, IGameState> {
     };
 
     const gradient = new PIXI.Sprite(
-      createGradientTexture(scene.width, scene.height / 2, [
+      createGradientTexture(1024, 512, [
         '#000000',
         '#294167'
       ])
     );
 
     const vignette = new PIXI.Sprite(
-      createGradientTexture(scene.width, scene.height, [
+      createGradientTexture(1024, 1024, [
         'rgba(0,0,0,1)',
         'rgba(0,0,0,0.2)'
       ], GRADIENT.RADIAL)
@@ -119,9 +119,9 @@ class Game extends React.Component<IGameProps, IGameState> {
       ], GRADIENT.RADIAL, 2, 20)
     );
 
-    glow.position.set(0, scene.height);
+    glow.position.set(100, scene.height);
     glow.anchor.set(0, 1);
-    glow.scale.set(8.5, 4.4);
+    glow.scale.set(3.8, 2);
     glow.tint = 0xf20505;
     glow.alpha = 0.4;
     glow.blendMode = PIXI.BLEND_MODES.ADD;
@@ -137,7 +137,6 @@ class Game extends React.Component<IGameProps, IGameState> {
     
     background.position.set(0, scene.height);
     background.anchor.set(0, 1);
-
     
     const fire = this.setupFire(resources.fire.textures);
 
@@ -158,9 +157,9 @@ class Game extends React.Component<IGameProps, IGameState> {
     );
     const fire = new PIXI.extras.AnimatedSprite(fireFrames);
 
-    fire.position.set(this.app.renderer.width / 2 + 300, this.app.renderer.height / 2 + 680);
+    fire.position.set(this.app.renderer.width / 2 + 150, this.app.renderer.height / 2 + 340);
     fire.anchor.set(0.5, 0.5);
-    fire.scale.set(2, 1.5);
+    fire.scale.set(0.95, 0.75);
     fire.alpha = 0.8;
     fire.blendMode = PIXI.BLEND_MODES.ADD;
     fire.animationSpeed = 0.2;
@@ -204,8 +203,8 @@ class Game extends React.Component<IGameProps, IGameState> {
       .to(leftIndianHeadContainer, 2, { pixi: { rotation: 0 } });
 
 
-    leftIndian.position.set(this.app.renderer.width / 2 - 400, this.app.renderer.height / 2 + 500);
-    leftIndian.scale.set(1.5, 1.5);
+    leftIndian.position.set(this.app.renderer.width / 2 - 200, this.app.renderer.height / 2 + 240);
+    leftIndian.scale.set(0.8, 0.8);
 
     return leftIndian;
   }
@@ -268,8 +267,8 @@ class Game extends React.Component<IGameProps, IGameState> {
       .to(rightIndianArmLeft, 2, { pixi: { rotation: 10 } })
       .to(rightIndianArmLeft, 2, { pixi: { rotation: 0 } });
 
-    rightIndian.position.set(this.app.renderer.width / 2 + 300,this.app.renderer.height / 2 + 360);
-    rightIndian.scale.set(1.5, 1.5);
+    rightIndian.position.set(this.app.renderer.width / 2 + 150, this.app.renderer.height / 2 + 170);
+    rightIndian.scale.set(0.8, 0.8);
 
     return rightIndian;
   }

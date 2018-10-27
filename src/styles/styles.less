@@ -12,20 +12,24 @@ body {
   background-color: #000;
   color: #fff;
 
-  /* prevent mobile refresh on swipe down */
+  // prevent mobile refresh on swipe down
   overflow-y: hidden;
 
   cursor: pointer;
 }
 
 .app {
-  position: absolute;
+  // set to fixed to prevent IOS rubber band effect
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
 
   text-align: center;
+
+  // add this to fix preventDefault error on mobile
+  touch-action: none;
 
   .hide {
     opacity: 0;
@@ -117,7 +121,7 @@ body {
   transform: translate(-50%, -50%);
   font-size: 70px;
   cursor: pointer;
-  transition: color 2s ease;
+  transition: color 0.3s ease;
 
   &:hover {
     color: #ff0000;

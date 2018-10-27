@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as PIXI from 'pixi.js';
 import { TweenMax } from 'gsap';
-import 'pixi-particles';
+import * as Particles from 'pixi-particles';
 import 'gsap/PixiPlugin';
 
 import { trail } from './emitters';
@@ -71,6 +71,7 @@ class ParticleSystem extends React.Component {
 
   private onTouchStart = (event: TouchEvent) => { 
     TweenMax.to(this.particleContainer, 0.5 , {pixi: {alpha: 1}});
+    this.emitter.emit = true;
     this.updateMousePos(event.changedTouches[0].pageX, event.changedTouches[0].pageY);
   }
   
@@ -81,11 +82,13 @@ class ParticleSystem extends React.Component {
   
   private onTouchEnd = (event: TouchEvent) => {
     TweenMax.to(this.particleContainer, 0.5 , {pixi: {alpha: 0}});
+    this.emitter.emit = false;
     this.updateMousePos(event.changedTouches[0].pageX, event.changedTouches[0].pageY);
   }
 
   private onMouseDown = ( event: MouseEvent) => {
     TweenMax.to(this.particleContainer, 0.5 , {pixi: {alpha: 1}});
+    this.emitter.emit = true;
     this.updateMousePos(event.pageX, event.pageY);
   }
 
@@ -95,6 +98,7 @@ class ParticleSystem extends React.Component {
 
   private onMouseUp = ( event: MouseEvent) => {
     TweenMax.to(this.particleContainer, 0.5 , {pixi: {alpha: 0}});
+    this.emitter.emit = false;
     this.updateMousePos(event.pageX, event.pageY);
   }
 
@@ -123,17 +127,17 @@ class ParticleSystem extends React.Component {
 
     this.particleContainer.alpha = 0;
 
-    // @ts-ignore
-    this.emitter = new PIXI.particles.Emitter(
+    this.emitter = new Particles.Emitter(
       this.particleContainer,
       [PIXI.Texture.fromImage('./assets/sprites/particle.png')],  
       trail
     );
 
     this.app.stage.addChild(this.particleContainer);
-    this.emitter.emit = true;  
+
+    this.emitter.emit = false;
     
-    this.app.ticker.add((delta) => {
+    this.app.ticker.add((delta) => {      
       this.emitter.updateOwnerPos(this.currentMousePos.x, this.currentMousePos.y);
     });
   }
