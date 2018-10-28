@@ -131,7 +131,7 @@ class ParticleSystem extends React.Component {
       this.particleContainer,
       [PIXI.Texture.fromImage('./assets/sprites/particle.png')],  
       trail
-    );
+    );    
 
     this.app.stage.addChild(this.particleContainer);
 
