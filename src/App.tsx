@@ -7,12 +7,13 @@ interface IAppState {
   isLoading: boolean;
   hasInitTimePassed: boolean;
   showVideo: boolean;
+  isYoutubePlayerReady: boolean;
 }
 
 class App extends React.Component<any, IAppState> {
   private initTime: number = 200;
   private videoID: string = 'Uysknk34ETE';
-  private youtubePlayer: any;
+  private youtubePlayer: any = null;
 
   constructor(props: any) {
     super(props);
@@ -20,7 +21,8 @@ class App extends React.Component<any, IAppState> {
     this.state = {
       isLoading: true,
       hasInitTimePassed: false,
-      showVideo: false
+      showVideo: false,
+      isYoutubePlayerReady: false
     }
 
     this.initYoutubePlayer();
@@ -33,6 +35,11 @@ class App extends React.Component<any, IAppState> {
           controls: 1, 
           rel : 0,
           showinfo: 0
+        },
+        events: {
+          onReady: () => {
+            this.setState({ isYoutubePlayerReady: true });
+          }
         }}
       );     
     };
@@ -50,6 +57,7 @@ class App extends React.Component<any, IAppState> {
         {this.renderLoadingScreen()}
         {this.renderContent()}
         {this.renderVideo()}
+        {this.renderVideoButton()}
         <Game onLoaded={this.hideLoadingScreen}/>
         <ParticleSystem />
       </div>
@@ -76,9 +84,18 @@ class App extends React.Component<any, IAppState> {
         <h1>Bonfire</h1>
         <h2>A Storytelling Game</h2>
         <span>coming <strong>2019</strong> for <i className={`${styles.icon} fa fa-apple`} /><i className={`${styles.icon} fa fa-android`}/></span>
-        <i onClick={this.showVideo} className={`${styles.videoButton} fa fa-youtube-play`} />
       </div>
     );
+  }
+
+  private renderVideoButton = () => {
+    const { showVideo } = this.state;    
+
+    if(!showVideo) {
+      return <i onClick={this.showVideo} className={`${styles.videoButton} fa fa-youtube-play`} />
+    }
+
+    return null;
   }
 
   private renderVideo = () => {
@@ -93,17 +110,19 @@ class App extends React.Component<any, IAppState> {
   }
   
   private hideVideo = () => {
-    if(this.youtubePlayer){
+    const { isYoutubePlayerReady } = this.state;
+    if(isYoutubePlayerReady){
       this.youtubePlayer.pauseVideo();
+      this.setState({ showVideo: false });
     }
-    this.setState({ showVideo: false });
   }
 
-  private showVideo = () => {
-    if(this.youtubePlayer){
+  private showVideo = () => { 
+    const { isYoutubePlayerReady } = this.state;    
+    if(isYoutubePlayerReady){
       this.youtubePlayer.playVideo();
+      this.setState({ showVideo: true });
     }
-    this.setState({ showVideo: true });
   }
 
   private hideLoadingScreen = () => {
