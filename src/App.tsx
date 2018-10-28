@@ -82,7 +82,7 @@ class App extends React.Component<any, IAppState> {
   }
 
   private renderVideo = () => {
-    const { showVideo } = this.state;
+    const { showVideo } = this.state;    
 
     return (
       <div className={`${styles.videoContainer} ${!showVideo ? styles.hide : ''}`}>
