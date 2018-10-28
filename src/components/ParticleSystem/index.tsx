@@ -70,25 +70,22 @@ class ParticleSystem extends React.Component {
   }
 
   private onTouchStart = (event: TouchEvent) => { 
-    TweenMax.to(this.particleContainer, 0.5 , {pixi: {alpha: 1}});
-    this.emitter.emit = true;
+    this.showTrail();
     this.updateMousePos(event.changedTouches[0].pageX, event.changedTouches[0].pageY);
   }
   
   private onTouchMove = (event: TouchEvent) => {
     event.preventDefault();
-    this.updateMousePos(event.changedTouches[0].pageX, event.changedTouches[0].pageY); 
+    // get offset top for latest IOS Safari to set mouse position correctly
+    this.updateMousePos(event.changedTouches[0].pageX, event.changedTouches[0].pageY + this.$canvas.getBoundingClientRect().top); 
   }
   
   private onTouchEnd = (event: TouchEvent) => {
-    TweenMax.to(this.particleContainer, 0.5 , {pixi: {alpha: 0}});
-    this.emitter.emit = false;
-    this.updateMousePos(event.changedTouches[0].pageX, event.changedTouches[0].pageY);
+    this.showTrail(false);
   }
 
   private onMouseDown = ( event: MouseEvent) => {
-    TweenMax.to(this.particleContainer, 0.5 , {pixi: {alpha: 1}});
-    this.emitter.emit = true;
+    this.showTrail();
     this.updateMousePos(event.pageX, event.pageY);
   }
 
@@ -97,14 +94,17 @@ class ParticleSystem extends React.Component {
   }
 
   private onMouseUp = ( event: MouseEvent) => {
-    TweenMax.to(this.particleContainer, 0.5 , {pixi: {alpha: 0}});
-    this.emitter.emit = false;
-    this.updateMousePos(event.pageX, event.pageY);
+    this.showTrail(false);
   }
 
   private updateMousePos = (x: number, y: number) => {
     this.currentMousePos.x = x;  
     this.currentMousePos.y = y;
+  }
+
+  private showTrail = (show: boolean = true) => {
+    TweenMax.to(this.particleContainer, 0.5 , {pixi: {alpha: show ? 1 : 0}});
+    this.emitter.emit = show;
   }
 
   private init = () => {
