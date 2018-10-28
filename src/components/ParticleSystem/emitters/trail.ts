@@ -10,8 +10,13 @@ export default  {
     minimumScaleMultiplier: 1
   },
   color: {
-    start: "#e3f9ff",
-    end: "#2196F3"
+    list: [
+      { value: "67A5EF", time: 0 },
+      { value: "5EE8FF", time: 0.33 },
+      { value: "99F1FF", time: 0.66 },
+      { value: "CEF8FF", time: 1 },
+    ],
+    isStepped: false
   },
   speed: {
     start: 0,
