@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as PIXI from 'pixi.js';
-import { TweenMax } from 'gsap';
+import { TweenMax, TimelineMax } from 'gsap';
 import * as Particles from 'pixi-particles';
 import 'gsap/PixiPlugin';
 
@@ -26,9 +26,7 @@ class ParticleSystem extends React.Component {
     document.addEventListener("touchmove", this.onTouchMove, true);
     document.addEventListener("touchend", this.onTouchEnd, true);  
 
-    document.addEventListener("mousedown", this.onMouseDown, true);  
     document.addEventListener("mousemove", this.onMouseMove, true);
-    document.addEventListener("mouseup", this.onMouseUp, true);  
   }
 
   public componentDidMount() {
@@ -43,9 +41,7 @@ class ParticleSystem extends React.Component {
     document.removeEventListener("touchmove", this.onTouchMove, true);
     document.removeEventListener("touchend", this.onTouchEnd,true);  
 
-    document.removeEventListener("mousedown", this.onMouseDown, true);  
     document.removeEventListener("mousemove", this.onMouseMove, true);
-    document.removeEventListener("mouseup", this.onMouseUp, true);  
   }
 
   public render() {
@@ -84,17 +80,8 @@ class ParticleSystem extends React.Component {
     this.showTrail(false);
   }
 
-  private onMouseDown = ( event: MouseEvent) => {
-    this.showTrail();
-    this.updateMousePos(event.pageX, event.pageY);
-  }
-
   private onMouseMove = ( event: MouseEvent) => {
     this.updateMousePos(event.pageX, event.pageY);
-  }
-
-  private onMouseUp = ( event: MouseEvent) => {
-    this.showTrail(false);
   }
 
   private updateMousePos = (x: number, y: number) => {
@@ -125,8 +112,6 @@ class ParticleSystem extends React.Component {
       tint: true
     });
 
-    this.particleContainer.alpha = 0;
-
     this.emitter = new Particles.Emitter(
       this.particleContainer,
       [PIXI.Texture.fromImage('./assets/sprites/particle.png')],  
@@ -135,10 +120,44 @@ class ParticleSystem extends React.Component {
 
     this.app.stage.addChild(this.particleContainer);
 
-    this.emitter.emit = false;
+
+    this.emitter.emit = true;
+
+    const sharpness = 0.1;
+    const minDelta = 0.05;
+    const duration = 1;
+
+    const emitterPos = { ...this.currentMousePos };
+    this.emitter.updateOwnerPos(emitterPos.x, emitterPos.y);
+
+    const colorOverLifeTime = new TimelineMax({ repeat: -1, yoyo: false });
     
-    this.app.ticker.add((delta) => {      
-      this.emitter.updateOwnerPos(this.currentMousePos.x, this.currentMousePos.y);
+    colorOverLifeTime
+      .to(this.particleContainer, duration / 2, { pixi: { tint: 0xFFFFFF } })
+      .to(this.particleContainer, duration, { pixi: { tint: 0x5EE8FF } })
+      .to(this.particleContainer, duration, { pixi: { tint: 0xFFF800 } })
+      .to(this.particleContainer, duration / 2, { pixi: { tint: 0xFFFFFF } });
+    
+    this.app.ticker.add((delta) => {    
+      if (emitterPos.x !== this.currentMousePos.x || emitterPos.y !== this.currentMousePos.y) {
+        const dt = 1 - Math.pow(1 - sharpness, delta); 
+        const dx = this.currentMousePos.x - emitterPos.x;
+        const dy = this.currentMousePos.y - emitterPos.y;
+        
+        if (Math.abs(dx) > minDelta) {
+          emitterPos.x += dx * dt;
+        } else {
+          emitterPos.x = this.currentMousePos.x;
+        }
+
+        if (Math.abs(dy) > minDelta) {
+          emitterPos.y += dy * dt;
+        } else {
+          emitterPos.y = this.currentMousePos.y;
+        }    
+        
+        this.emitter.updateOwnerPos(emitterPos.x, emitterPos.y);
+      }
     });
   }
 }
