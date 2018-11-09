@@ -5,13 +5,13 @@ export default {
 		end: 1
 	},
 	scale: {
-		start: 0.1,
+		start: 0.08,
 		end: 0.12,
 		minimumScaleMultiplier: 1
 	},
 	color: {
 		start: "#ffffff",
-		end: "#00aaff"
+		end: "#4AD9D9"
 	},
 	speed: {
 		start: 172,
@@ -33,11 +33,11 @@ export default {
 		max: 0
 	},
 	lifetime: {
-		min: 0.06,
-		max: 0.15
+		min: 0.4,
+		max: 0.4
 	},
 	blendMode: "normal",
-	frequency: 0.001,
+	frequency: 0.05,
 	emitterLifetime: -1,
 	maxParticles: 500,
 	pos: {

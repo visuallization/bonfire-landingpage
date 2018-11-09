@@ -33,8 +33,8 @@ export default  {
     max: 0
   },
   lifetime: {
-    min: 0.6,
-    max: 0.6
+    min: 0.4,
+    max: 0.4
   },  
   blendMode: "normal",
   frequency: 0.0005,

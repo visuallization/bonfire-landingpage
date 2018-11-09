@@ -4,7 +4,7 @@ import { TweenMax, TimelineMax } from 'gsap';
 import * as Particles from 'pixi-particles';
 import 'gsap/PixiPlugin';
 
-import { trail } from './emitters';
+import { trail, spark } from './emitters';
 
 import * as styles from './styles.less';
 
@@ -12,7 +12,9 @@ class ParticleSystem extends React.Component {
   private app: PIXI.Application;
   private $canvas: HTMLCanvasElement;
   private currentMousePos: any = { x: -10, y: -10 };
-  private emitter: any;
+  private trailEmitter: any;
+  private sparkEmitter: any;
+
   private resizeTimeout: number | null;
   private fifteenFPS: number = 66;
   private particleContainer: PIXI.particles.ParticleContainer;
@@ -91,7 +93,8 @@ class ParticleSystem extends React.Component {
 
   private showTrail = (show: boolean = true) => {
     TweenMax.to(this.particleContainer, 0.5 , {pixi: {alpha: show ? 1 : 0}});
-    this.emitter.emit = show;
+    this.trailEmitter.emit = show;
+    this.sparkEmitter.emit = show;
   }
 
   private init = () => {
@@ -112,31 +115,36 @@ class ParticleSystem extends React.Component {
       tint: true
     });
 
-    this.emitter = new Particles.Emitter(
+    this.trailEmitter = new Particles.Emitter(
       this.particleContainer,
       [PIXI.Texture.fromImage('./assets/sprites/particle.png')],  
       trail
     );    
 
+    this.sparkEmitter = new Particles.Emitter(
+      this.particleContainer,
+      [PIXI.Texture.fromImage('./assets/sprites/particle.png')],  
+      spark
+    );  
+
     this.app.stage.addChild(this.particleContainer);
 
-
-    this.emitter.emit = true;
+    this.trailEmitter.emit = true;
+    this.sparkEmitter.emit = true;
 
     const sharpness = 0.1;
     const minDelta = 0.05;
     const duration = 1;
 
     const emitterPos = { ...this.currentMousePos };
-    this.emitter.updateOwnerPos(emitterPos.x, emitterPos.y);
+    this.trailEmitter.updateOwnerPos(emitterPos.x, emitterPos.y);
+    this.sparkEmitter.updateOwnerPos(emitterPos.x, emitterPos.y);
 
     const colorOverLifeTime = new TimelineMax({ repeat: -1, yoyo: false });
     
     colorOverLifeTime
-      .to(this.particleContainer, duration / 2, { pixi: { tint: 0xFFFFFF } })
-      .to(this.particleContainer, duration, { pixi: { tint: 0x5EE8FF } })
-      .to(this.particleContainer, duration, { pixi: { tint: 0xFFF800 } })
-      .to(this.particleContainer, duration / 2, { pixi: { tint: 0xFFFFFF } });
+      .to(this.particleContainer, duration, { pixi: { tint: 0xE9F1DF } })
+      .to(this.particleContainer, duration, { pixi: { tint: 0x4AD9D9 } });
     
     this.app.ticker.add((delta) => {    
       if (emitterPos.x !== this.currentMousePos.x || emitterPos.y !== this.currentMousePos.y) {
@@ -156,7 +164,8 @@ class ParticleSystem extends React.Component {
           emitterPos.y = this.currentMousePos.y;
         }    
         
-        this.emitter.updateOwnerPos(emitterPos.x, emitterPos.y);
+        this.trailEmitter.updateOwnerPos(emitterPos.x, emitterPos.y);
+        this.sparkEmitter.updateOwnerPos(emitterPos.x, emitterPos.y);
       }
     });
   }
