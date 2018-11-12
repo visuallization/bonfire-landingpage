@@ -126,3 +126,64 @@ body {
     color: #ff0000;
   }
 }
+
+form {
+  margin-top: 30px;
+
+  input {
+    padding: 10px;
+    border: none;
+
+    &:focus {
+      outline: none;
+
+      &::placeholder {
+        color: transparent;
+      }
+    }
+
+    &:-webkit-autofill {
+      animation: autofill both;
+    }
+
+    &::placeholder {
+      color: #fff;
+    }
+  }
+}
+
+.inputContainer {
+  display: inline-block;
+  position: relative;
+}
+
+.emailInput {
+  padding: 10px 30px 10px 10px;
+
+  background-color: transparent;
+  border-bottom: 1px solid #fff;
+  color: #fff;
+}
+
+.submitButton {
+  position: absolute;
+  top: -1px;
+  right: 0;
+  height: 37px;
+
+  background-color: #fff;
+  color: #000;
+
+  opacity: 0;
+  transition: opacity 0.5s ease;
+
+  cursor: pointer;
+}
+
+// prevent chrome's yellow autofill background
+@keyframes autofill {
+  to {
+    background-color: transparent;
+    color: #fff;
+  }
+}
