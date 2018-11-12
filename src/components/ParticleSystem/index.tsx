@@ -83,6 +83,9 @@ class ParticleSystem extends React.Component {
   }
 
   private onMouseMove = ( event: MouseEvent) => {
+    if(!this.trailEmitter.emit) {
+      this.showTrail();
+    }
     this.updateMousePos(event.pageX, event.pageY);
   }
 
@@ -129,8 +132,8 @@ class ParticleSystem extends React.Component {
 
     this.app.stage.addChild(this.particleContainer);
 
-    this.trailEmitter.emit = true;
-    this.sparkEmitter.emit = true;
+    this.trailEmitter.emit = false;
+    this.sparkEmitter.emit = false;
 
     const sharpness = 0.1;
     const minDelta = 0.05;
