@@ -5,6 +5,11 @@
   user-select: none;
 }
 
+::selection {
+  background-color: #fe5187;
+  color: #fff;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -165,19 +170,34 @@ form {
   color: #fff;
 }
 
+button {
+  border: none;
+  outline: none;
+}
+
 .submitButton {
+  font-family: FontAwesome;
+
   position: absolute;
   top: -1px;
   right: 0;
+
+  width: 30px;
   height: 37px;
 
   background-color: #fff;
   color: #000;
 
   opacity: 0;
-  transition: opacity 0.5s ease;
+  animation: fadeIn 0.5s forwards;
 
   cursor: pointer;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
 }
 
 // prevent chrome's yellow autofill background

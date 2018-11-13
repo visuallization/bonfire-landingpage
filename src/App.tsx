@@ -15,6 +15,7 @@ class App extends React.Component<any, IAppState> {
   private initTime: number = 200;
   private videoID: string = 'Uysknk34ETE';
   private youtubePlayer: any = null;
+  private validEmail: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   constructor(props: any) {
     super(props);
@@ -81,8 +82,6 @@ class App extends React.Component<any, IAppState> {
   }
 
   private renderContent = () => {  
-    const isEmailVaild = this.state.email.indexOf('@') > -1;  
-
     return (
       <div className={styles.content}>
         <h1>Bonfire</h1>
@@ -92,7 +91,7 @@ class App extends React.Component<any, IAppState> {
           <input type="hidden" name="id" value="15a3301b2e" />
           <div className={styles.inputContainer}>
             <input onChange={this.setEmail} className={styles.emailInput} type="email"placeholder="Subscribe to our Newsletter" autoCapitalize="off" autoCorrect="off" name="MERGE0" id="MERGE0" size={25} />
-            <input style={{ opacity: isEmailVaild ? 1 : 0 }} className={styles.submitButton} type="submit" name="submit" value="✓" />
+            {this.renderSubmitButton()}
           </div>
         </form>
         <span>coming <strong>2019</strong> for <i className={`${styles.icon} fa fa-apple`} /><i className={`${styles.icon} fa fa-android`}/></span>
@@ -102,6 +101,20 @@ class App extends React.Component<any, IAppState> {
 
   private setEmail = (e: any) => {
     this.setState({ email: e.target.value });
+  }
+
+  private renderSubmitButton = () => {
+    const isEmailVaild = this.validEmail.test(String(this.state.email.toLowerCase()));
+
+    if(isEmailVaild) {
+      return (
+        <button className={styles.submitButton} type="submit" name="submit">
+          <i className="fa fa-check" />
+        </button>
+      );
+    }
+    
+    return null;
   }
 
   private renderVideoButton = () => {
