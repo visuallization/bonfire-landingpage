@@ -83,6 +83,9 @@ class ParticleSystem extends React.Component {
   }
 
   private onMouseMove = ( event: MouseEvent) => {
+    if(!this.trailEmitter.emit) {
+      this.showTrail();
+    }
     this.updateMousePos(event.pageX, event.pageY);
   }
 
@@ -115,6 +118,8 @@ class ParticleSystem extends React.Component {
       tint: true
     });
 
+    this.particleContainer.blendMode = PIXI.BLEND_MODES.ADD;
+
     this.trailEmitter = new Particles.Emitter(
       this.particleContainer,
       [PIXI.Texture.fromImage('./assets/sprites/particle.png')],  
@@ -129,10 +134,10 @@ class ParticleSystem extends React.Component {
 
     this.app.stage.addChild(this.particleContainer);
 
-    this.trailEmitter.emit = true;
-    this.sparkEmitter.emit = true;
+    this.trailEmitter.emit = false;
+    this.sparkEmitter.emit = false;
 
-    const sharpness = 0.1;
+    const sharpness = 0.2;
     const minDelta = 0.05;
     const duration = 1;
 
@@ -140,11 +145,14 @@ class ParticleSystem extends React.Component {
     this.trailEmitter.updateOwnerPos(emitterPos.x, emitterPos.y);
     this.sparkEmitter.updateOwnerPos(emitterPos.x, emitterPos.y);
 
-    const colorOverLifeTime = new TimelineMax({ repeat: -1, yoyo: false });
+    const colorOverLifeTime = new TimelineMax({ repeat: -1, yoyo: true });
     
     colorOverLifeTime
+      .to(this.particleContainer, duration, { pixi: { tint: 0x4AD9D9 } })
       .to(this.particleContainer, duration, { pixi: { tint: 0xE9F1DF } })
-      .to(this.particleContainer, duration, { pixi: { tint: 0x4AD9D9 } });
+      .to(this.particleContainer, duration, { pixi: { tint: 0xFFF800 } })
+      .to(this.particleContainer, duration, { pixi: { tint: 0xFF6704 } });
+
     
     this.app.ticker.add((delta) => {    
       if (emitterPos.x !== this.currentMousePos.x || emitterPos.y !== this.currentMousePos.y) {

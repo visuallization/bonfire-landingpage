@@ -8,12 +8,14 @@ interface IAppState {
   hasInitTimePassed: boolean;
   showVideo: boolean;
   isYoutubePlayerReady: boolean;
+  email: string;
 }
 
 class App extends React.Component<any, IAppState> {
   private initTime: number = 200;
-  private videoID: string = 'Uysknk34ETE';
+  private videoID: string = 'GSc7BYNblaY';
   private youtubePlayer: any = null;
+  private validEmail: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   constructor(props: any) {
     super(props);
@@ -22,7 +24,8 @@ class App extends React.Component<any, IAppState> {
       isLoading: true,
       hasInitTimePassed: false,
       showVideo: false,
-      isYoutubePlayerReady: false
+      isYoutubePlayerReady: false,
+      email: ''
     }
 
     this.initYoutubePlayer();
@@ -78,14 +81,40 @@ class App extends React.Component<any, IAppState> {
     return <LoadingScreen className={`${!isLoading && hasInitTimePassed ? styles.hide : ''}`} />;
   }
 
-  private renderContent = () => {
+  private renderContent = () => {  
     return (
       <div className={styles.content}>
         <h1>Bonfire</h1>
         <h2>A Storytelling Game</h2>
+        <form action="https://bonfire-game.us19.list-manage.com/subscribe/post" method="POST">
+          <input type="hidden" name="u" value="09ca63ad0054d46d3a08238c3" />
+          <input type="hidden" name="id" value="15a3301b2e" />
+          <div className={styles.inputContainer}>
+            <input onChange={this.setEmail} className={styles.emailInput} type="email"placeholder="Subscribe to our Newsletter" autoCapitalize="off" autoCorrect="off" name="MERGE0" id="MERGE0" size={25} />
+            {this.renderSubmitButton()}
+          </div>
+        </form>
         <span>coming <strong>2019</strong> for <i className={`${styles.icon} fa fa-apple`} /><i className={`${styles.icon} fa fa-android`}/></span>
       </div>
     );
+  }
+
+  private setEmail = (e: any) => {
+    this.setState({ email: e.target.value });
+  }
+
+  private renderSubmitButton = () => {
+    const isEmailVaild = this.validEmail.test(String(this.state.email.toLowerCase()));
+
+    if(isEmailVaild) {
+      return (
+        <button className={styles.submitButton} type="submit" name="submit">
+          <i className="fa fa-check" />
+        </button>
+      );
+    }
+
+    return null;
   }
 
   private renderVideoButton = () => {
