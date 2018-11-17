@@ -1,11 +1,11 @@
 export default  {
   autoUpdate: true,
   alpha: {
-    start: 0.8,
-    end: 0.15
+    start: 1,
+    end: 1
   },
   scale: {
-    start: 0.2,
+    start: 0.35,
     end: 0.1,
     minimumScaleMultiplier: 1
   },
@@ -37,7 +37,7 @@ export default  {
     max: 0.4
   },  
   blendMode: "normal",
-  frequency: 0.0005,
+  frequency: 0.007,
   emitterLifetime: -1,
   maxParticles: 5000,
   pos: {

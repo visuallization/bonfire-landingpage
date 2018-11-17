@@ -7,7 +7,7 @@ export default {
 	scale: {
 		start: 0.08,
 		end: 0.12,
-		minimumScaleMultiplier: 1
+		minimumScaleMultiplier: 1.5
 	},
 	color: {
 		start: "#ffffff",
