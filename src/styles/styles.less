@@ -5,6 +5,11 @@
   user-select: none;
 }
 
+::selection {
+  background-color: #fe5187;
+  color: #fff;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -124,5 +129,81 @@ body {
 
   &:hover {
     color: #ff0000;
+  }
+}
+
+form {
+  margin-top: 30px;
+
+  input {
+    padding: 10px;
+    border: none;
+
+    &:focus {
+      outline: none;
+
+      &::placeholder {
+        color: transparent;
+      }
+    }
+
+    &:-webkit-autofill {
+      animation: autofill both;
+    }
+
+    &::placeholder {
+      color: #fff;
+    }
+  }
+}
+
+.inputContainer {
+  display: inline-block;
+  position: relative;
+}
+
+.emailInput {
+  padding: 10px 30px 10px 10px;
+
+  background-color: transparent;
+  border-bottom: 1px solid #fff;
+  color: #fff;
+}
+
+button {
+  border: none;
+  outline: none;
+}
+
+.submitButton {
+  font-family: FontAwesome;
+
+  position: absolute;
+  top: -1px;
+  right: 0;
+
+  width: 30px;
+  height: 37px;
+
+  background-color: #fff;
+  color: #000;
+
+  opacity: 0;
+  animation: fadeIn 0.5s forwards;
+
+  cursor: pointer;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+// prevent chrome's yellow autofill background
+@keyframes autofill {
+  to {
+    background-color: transparent;
+    color: #fff;
   }
 }

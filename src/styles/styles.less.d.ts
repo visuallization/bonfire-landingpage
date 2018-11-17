@@ -5,3 +5,8 @@ export const icon: string;
 export const videoContainer: string;
 export const closeButton: string;
 export const videoButton: string;
+export const autofill: string;
+export const inputContainer: string;
+export const emailInput: string;
+export const submitButton: string;
+export const fadeIn: string;
