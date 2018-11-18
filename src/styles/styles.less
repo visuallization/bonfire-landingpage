@@ -37,6 +37,7 @@ body {
   .hide {
     opacity: 0;
     pointer-events: none;
+    z-index: -1;
   }
 }
 
@@ -97,9 +98,6 @@ body {
 
   background-color: #000;  
 
-  opacity: 1;
-  transition: opacity 0.5s ease;
-
   .closeButton {
     position: absolute;
     top: 20px;
@@ -155,6 +153,11 @@ form {
       color: #fff;
     }
   }
+}
+
+input {
+  user-select: initial;
+  border-radius: 0;
 }
 
 .inputContainer {
