@@ -9,6 +9,7 @@ interface IAppState {
   showVideo: boolean;
   isYoutubePlayerReady: boolean;
   email: string;
+  showVideoButton: boolean;
 }
 
 class App extends React.Component<any, IAppState> {
@@ -25,7 +26,8 @@ class App extends React.Component<any, IAppState> {
       hasInitTimePassed: false,
       showVideo: false,
       isYoutubePlayerReady: false,
-      email: ''
+      email: '',
+      showVideoButton: true
     }
 
     this.initYoutubePlayer();
@@ -90,13 +92,21 @@ class App extends React.Component<any, IAppState> {
           <input type="hidden" name="u" value="09ca63ad0054d46d3a08238c3" />
           <input type="hidden" name="id" value="15a3301b2e" />
           <div className={styles.inputContainer}>
-            <input onChange={this.setEmail} className={styles.emailInput} type="email"placeholder="Subscribe to our Newsletter" autoCapitalize="off" autoCorrect="off" name="MERGE0" id="MERGE0" size={25} />
+            <input onFocus={this.hideVideoButton} onBlur={this.showVideoButton} onChange={this.setEmail} className={styles.emailInput} type="email"placeholder="Subscribe to our Newsletter" autoCapitalize="off" autoCorrect="off" name="MERGE0" id="MERGE0" size={25} />
             {this.renderSubmitButton()}
           </div>
         </form>
         <span>coming <strong>2019</strong> for <i className={`${styles.icon} fa fa-apple`} /><i className={`${styles.icon} fa fa-android`}/></span>
       </div>
     );
+  }
+
+  private showVideoButton = () => {
+    this.setState({ showVideoButton: true });
+  } 
+
+  private hideVideoButton = () => {
+    this.setState({ showVideoButton: false });
   }
 
   private setEmail = (e: any) => {
@@ -118,9 +128,9 @@ class App extends React.Component<any, IAppState> {
   }
 
   private renderVideoButton = () => {
-    const { showVideo } = this.state;    
+    const { showVideo, showVideoButton } = this.state;    
 
-    if(!showVideo) {
+    if(!showVideo && showVideoButton) {
       return <i onClick={this.showVideo} className={`${styles.videoButton} fa fa-youtube-play`} />
     }
 
