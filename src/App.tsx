@@ -91,9 +91,12 @@ class App extends React.Component<any, IAppState> {
         <form action="https://bonfire-game.us19.list-manage.com/subscribe/post" method="POST">
           <input type="hidden" name="u" value="09ca63ad0054d46d3a08238c3" />
           <input type="hidden" name="id" value="15a3301b2e" />
-          <div className={styles.inputContainer}>
-            <input onFocus={this.hideVideoButton} onBlur={this.showVideoButton} onChange={this.setEmail} className={styles.emailInput} type="email"placeholder="Subscribe to our Newsletter" autoCapitalize="off" autoCorrect="off" name="MERGE0" id="MERGE0" size={25} />
-            {this.renderSubmitButton()}
+          <div className={styles.newsletterContainer}>
+            <label htmlFor="MERGE0">Subscribe to our Newsletter</label>
+            <div className={styles.inputContainer}>
+              <input onFocus={this.hideVideoButton} onBlur={this.showVideoButton} onChange={this.setEmail} className={styles.emailInput} type="email"placeholder="your.email@address.com" autoCapitalize="off" autoCorrect="off" name="MERGE0" id="MERGE0" size={20} />
+              {this.renderSubmitButton()}
+            </div>
           </div>
         </form>
         <span>coming <strong>2019</strong> for <i className={`${styles.icon} fa fa-apple`} /><i className={`${styles.icon} fa fa-android`}/></span>
@@ -119,7 +122,7 @@ class App extends React.Component<any, IAppState> {
     if(isEmailVaild) {
       return (
         <button className={styles.submitButton} type="submit" name="submit">
-          <i className="fa fa-check" />
+          <i className="fa fa-arrow-right" />
         </button>
       );
     }
