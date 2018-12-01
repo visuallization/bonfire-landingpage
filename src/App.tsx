@@ -126,14 +126,12 @@ class App extends React.Component<any, IAppState> {
   
     fetch('/.netlify/functions/subscribe', { method: 'POST', body: this.state.email })
     .then(response => {
-      console.log(response);
       if(response.ok) {
         return response.json()
       }
       return null;
     })
     .then(json => { 
-      console.log("RESPONSE: ", json);
       this.setState({ 
         isSubmitting: false, 
         msg: json ? 
