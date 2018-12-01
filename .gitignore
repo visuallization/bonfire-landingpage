@@ -1,4 +1,4 @@
-node_modules
-build
-lambda
+/node_modules
+/build
+/lambda
 .env
