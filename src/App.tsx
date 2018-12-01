@@ -10,6 +10,8 @@ interface IAppState {
   isYoutubePlayerReady: boolean;
   email: string;
   showVideoButton: boolean;
+  isSubmitting: boolean;
+  msg?: string | null;
 }
 
 class App extends React.Component<any, IAppState> {
@@ -27,7 +29,9 @@ class App extends React.Component<any, IAppState> {
       showVideo: false,
       isYoutubePlayerReady: false,
       email: '',
-      showVideoButton: true
+      showVideoButton: true,
+      isSubmitting: false,
+      msg: null
     }
 
     this.initYoutubePlayer();
@@ -84,17 +88,16 @@ class App extends React.Component<any, IAppState> {
   }
 
   private renderContent = () => {  
+    const { msg } = this.state;
     return (
       <div className={styles.content}>
         <h1>Bonfire</h1>
         <h2>A Storytelling Game</h2>
-        <form action="https://bonfire-game.us19.list-manage.com/subscribe/post" method="POST">
-          <input type="hidden" name="u" value="09ca63ad0054d46d3a08238c3" />
-          <input type="hidden" name="id" value="15a3301b2e" />
+        <form onSubmit={this.subscribeUser}>
           <div className={styles.newsletterContainer}>
-            <label htmlFor="MERGE0">Subscribe to our Newsletter</label>
+            <label htmlFor="newsletter">{msg ? msg : 'Subscribe to our Newsletter'}</label>
             <div className={styles.inputContainer}>
-              <input onFocus={this.hideVideoButton} onBlur={this.showVideoButton} onChange={this.setEmail} className={styles.emailInput} type="email"placeholder="your.email@address.com" autoCapitalize="off" autoCorrect="off" name="MERGE0" id="MERGE0" size={20} />
+              <input type="email" onFocus={this.hideVideoButton} onBlur={this.showVideoButton} onChange={this.setEmail} className={styles.emailInput} name="newlsetter" id="newsletter" placeholder="your.email@address.com" autoCapitalize="off" autoCorrect="off" size={20} />
               {this.renderSubmitButton()}
             </div>
           </div>
@@ -116,13 +119,38 @@ class App extends React.Component<any, IAppState> {
     this.setState({ email: e.target.value });
   }
 
+  private subscribeUser = (e: any) => {
+    e.preventDefault();
+
+    this.setState({ isSubmitting: true });
+  
+    fetch('/.netlify/functions/subscribe', { method: 'POST', body: this.state.email })
+    .then(response => {
+      console.log(response);
+      if(response.ok) {
+        return response.json()
+      }
+      return null;
+    })
+    .then(json => { 
+      console.log("RESPONSE: ", json);
+      this.setState({ 
+        isSubmitting: false, 
+        msg: json ? 
+        'Sie wurden erfolgreich zu unserem Newsletter angemeldet!' : 
+        'Leider ist ein Fehler aufgetreten.' 
+      }); 
+    });
+  }
+
   private renderSubmitButton = () => {
+    const { isSubmitting } = this.state;
     const isEmailVaild = this.validEmail.test(String(this.state.email.toLowerCase()));
 
     if(isEmailVaild) {
       return (
         <button className={styles.submitButton} type="submit" name="submit">
-          <i className="fa fa-arrow-right" />
+          <i className={isSubmitting ? 'fa fa-spinner fa-pulse fa-fw' : 'fa fa-arrow-right'} />
         </button>
       );
     }
