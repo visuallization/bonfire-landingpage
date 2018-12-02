@@ -11,14 +11,25 @@ interface IAppState {
   email: string;
   showVideoButton: boolean;
   isSubmitting: boolean;
-  msg?: string | null;
-}
+  status: Status;
+};
+
+enum Status {
+  Default,
+  Success,
+  Error
+};
 
 class App extends React.Component<any, IAppState> {
   private initTime: number = 200;
   private videoID: string = 'GSc7BYNblaY';
   private youtubePlayer: any = null;
   private validEmail: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  private message:  { [status in Status]: string } = {
+    [Status.Default]: 'Subscribe to our Newsletter',
+    [Status.Success]: 'Awesome, you have been successfully subscribed to our newsletter',
+    [Status.Error]: 'Unfortunately, an error occured.'
+  };
 
   constructor(props: any) {
     super(props);
@@ -26,12 +37,12 @@ class App extends React.Component<any, IAppState> {
     this.state = {
       isLoading: true,
       hasInitTimePassed: false,
+      showVideoButton: true,
       showVideo: false,
       isYoutubePlayerReady: false,
       email: '',
-      showVideoButton: true,
       isSubmitting: false,
-      msg: null
+      status: Status.Default
     }
 
     this.initYoutubePlayer();
@@ -88,14 +99,14 @@ class App extends React.Component<any, IAppState> {
   }
 
   private renderContent = () => {  
-    const { msg } = this.state;
+    const { status } = this.state;
     return (
       <div className={styles.content}>
         <h1>Bonfire</h1>
         <h2>A Storytelling Game</h2>
         <form onSubmit={this.subscribeUser}>
           <div className={styles.newsletterContainer}>
-            <label htmlFor="newsletter">{msg ? msg : 'Subscribe to our Newsletter'}</label>
+            <label htmlFor="newsletter">{this.message[status]}</label>
             <div className={styles.inputContainer}>
               <input type="email" onFocus={this.hideVideoButton} onBlur={this.showVideoButton} onChange={this.setEmail} className={styles.emailInput} name="newlsetter" id="newsletter" placeholder="your.email@address.com" autoCapitalize="off" autoCorrect="off" size={20} />
               {this.renderSubmitButton()}
@@ -116,7 +127,7 @@ class App extends React.Component<any, IAppState> {
   }
 
   private setEmail = (e: any) => {
-    this.setState({ email: e.target.value });
+    this.setState({ email: e.target.value, status: Status.Default });
   }
 
   private subscribeUser = (e: any) => {
@@ -131,24 +142,31 @@ class App extends React.Component<any, IAppState> {
       }
       return null;
     })
-    .then(json => { 
+    .then(json => {      
       this.setState({ 
         isSubmitting: false, 
-        msg: json ? 
-        'Sie wurden erfolgreich zu unserem Newsletter angemeldet!' : 
-        'Leider ist ein Fehler aufgetreten.' 
+        status: json ? Status.Success : Status.Error 
       }); 
     });
   }
 
   private renderSubmitButton = () => {
-    const { isSubmitting } = this.state;
+    const { isSubmitting, status } = this.state;
     const isEmailVaild = this.validEmail.test(String(this.state.email.toLowerCase()));
+
+    let icon = 'fa-arrow-right';
+    if(isSubmitting) {
+      icon = 'fa-spinner fa-pulse fa-fw';
+    } else if(status === Status.Success) {
+      icon = 'fa-check';
+    } else if(status === Status.Error) {
+      icon = 'fa-warning';
+    }
 
     if(isEmailVaild) {
       return (
         <button className={styles.submitButton} type="submit" name="submit">
-          <i className={isSubmitting ? 'fa fa-spinner fa-pulse fa-fw' : 'fa fa-arrow-right'} />
+          <i className={`fa ${icon}`} />
         </button>
       );
     }
