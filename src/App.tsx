@@ -199,6 +199,7 @@ class App extends React.Component<any, IAppState> {
   }
 
   private renderVideoButton = () => {
+    return null;
     const { showVideo, showVideoButton } = this.state;    
 
     if(!showVideo && showVideoButton) {
