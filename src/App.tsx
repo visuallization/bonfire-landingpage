@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Game, LoadingScreen, ParticleSystem } from './components';
+import { Game, LoadingScreen, ParticleSystem, PopUp } from './components';
 
 import * as styles from './styles/styles.less';
 
@@ -7,6 +7,7 @@ interface IAppState {
   isLoading: boolean;
   hasInitTimePassed: boolean;
   showVideo: boolean;
+  showEmailPopUp: boolean;
   isYoutubePlayerReady: boolean;
   email: string;
   showVideoButton: boolean;
@@ -30,6 +31,20 @@ class App extends React.Component<any, IAppState> {
     [Status.Success]: 'Awesome, you have been successfully subscribed to our newsletter',
     [Status.Error]: 'Unfortunately, an error occured.'
   };
+  private emailText: string = `
+  I agree, that Bonfire uses my email address,
+  to send recurrently informations about the development of the game by email.
+  I can always decline that agreement via email by sending a short notice to hello@bonfire-game.com.`;
+  private emailButtons = [
+    { 
+      label: 'Cancel',
+      onClick: () => { this.hideEmailPopUp(); } 
+    },
+    { 
+      label: 'Okay',
+      onClick: () => { this.hideEmailPopUp(); this.subscribeUser(); } 
+     }
+  ];
 
   constructor(props: any) {
     super(props);
@@ -39,6 +54,7 @@ class App extends React.Component<any, IAppState> {
       hasInitTimePassed: false,
       showVideoButton: true,
       showVideo: false,
+      showEmailPopUp: false,
       isYoutubePlayerReady: false,
       email: '',
       isSubmitting: false,
@@ -72,12 +88,14 @@ class App extends React.Component<any, IAppState> {
   }
 
   public render() {
+    const { showEmailPopUp } = this.state;
     return (
       <div className={styles.app}>
         {this.renderLoadingScreen()}
         {this.renderContent()}
         {this.renderVideo()}
         {this.renderVideoButton()}
+        {showEmailPopUp && <PopUp content={this.emailText} buttons={this.emailButtons}/>}
         <Game onLoaded={this.hideLoadingScreen}/>
         <ParticleSystem />
       </div>
@@ -103,17 +121,17 @@ class App extends React.Component<any, IAppState> {
     return (
       <div className={styles.content}>
         <h1>Bonfire</h1>
-        <h2>A Storytelling Game</h2>
-        <form onSubmit={this.subscribeUser}>
+        <h2>A Micro Story</h2>
+        <form>
           <div className={styles.newsletterContainer}>
             <label htmlFor="newsletter">{this.message[status]}</label>
             <div className={styles.inputContainer}>
-              <input type="email" onFocus={this.hideVideoButton} onBlur={this.showVideoButton} onChange={this.setEmail} className={styles.emailInput} name="newlsetter" id="newsletter" placeholder="your.email@address.com" autoCapitalize="off" autoCorrect="off" size={20} />
+              <input type="email" onFocus={this.hideVideoButton} onBlur={this.showVideoButton} onChange={this.setEmail} className={styles.emailInput} name="newlsetter" id="newsletter" placeholder="your.email@address.com" autoCapitalize="off" autoCorrect="off" size={23} />
               {this.renderSubmitButton()}
             </div>
           </div>
         </form>
-        <span>coming <strong>2019</strong> for <i className={`${styles.icon} fa fa-apple`} /><i className={`${styles.icon} fa fa-android`}/></span>
+        <span>coming <strong>2020</strong> for <i className={`${styles.icon} fa fa-apple`} /><i className={`${styles.icon} fa fa-android`}/></span>
       </div>
     );
   }
@@ -130,9 +148,7 @@ class App extends React.Component<any, IAppState> {
     this.setState({ email: e.target.value, status: Status.Default });
   }
 
-  private subscribeUser = (e: any) => {
-    e.preventDefault();
-
+  private subscribeUser = () => {
     this.setState({ isSubmitting: true });
   
     fetch('/.netlify/functions/subscribe', { method: 'POST', body: this.state.email })
@@ -165,16 +181,25 @@ class App extends React.Component<any, IAppState> {
 
     if(isEmailVaild) {
       return (
-        <button className={styles.submitButton} type="submit" name="submit">
+        <a className={styles.submitButton} onClick={this.showEmailPopUp}>
           <i className={`fa ${icon}`} />
-        </button>
+        </a>
       );
     }
 
     return null;
   }
 
+  private showEmailPopUp = () => {
+    this.setState({ showEmailPopUp: true });
+  }
+
+  private hideEmailPopUp = () => {
+    this.setState({ showEmailPopUp: false });
+  }
+
   private renderVideoButton = () => {
+    return null;
     const { showVideo, showVideoButton } = this.state;    
 
     if(!showVideo && showVideoButton) {
