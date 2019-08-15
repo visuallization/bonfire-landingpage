@@ -71,12 +71,16 @@ class Game extends React.Component<IGameProps, IGameState> {
     this.app.renderer.autoResize = true;
     scaleToWindow(this.app.renderer.view);
 
-    PIXI.loader
+    if (Object.entries(PIXI.loader.resources).length === 0){
+      PIXI.loader
       .add('background', './assets/sprites/background.png')
       .add('fire', './assets/sprites/fire.json')
       .add('indians', './assets/sprites/indians.json')
       .on('progress', this.showLoadingProgress)
       .load(this.setupGameScene);
+    } else {
+      PIXI.loader.load(this.setupGameScene);
+    }
   };
 
   private showLoadingProgress = (

@@ -37,7 +37,7 @@ class ParticleSystem extends React.Component {
   }
 
   public componentWillUnmount() {
-    window.removeEventListener("resize", this.onThrottledResize);
+    window.removeEventListener("resize", this.onThrottledResize, true);
 
     document.removeEventListener("touchstart", this.onTouchStart, true);  
     document.removeEventListener("touchmove", this.onTouchMove, true);

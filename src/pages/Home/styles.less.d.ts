@@ -11,3 +11,4 @@ export const inputContainer: string;
 export const emailInput: string;
 export const submitButton: string;
 export const fadeIn: string;
+export const footer: string;

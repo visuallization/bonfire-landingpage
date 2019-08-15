@@ -1,4 +1,5 @@
 import * as React from 'react';
+import ReactMarkdown from 'react-markdown';
 
 import * as styles from './styles.less';
 
@@ -21,7 +22,7 @@ class PopUp extends React.Component<Props, {}> {
     return (
       <div className={styles.popUpContainer}>
         <div className={styles.popUp}>
-          <p>{content}</p>
+          <ReactMarkdown source={content} escapeHtml={false}/>
           <div className={styles.buttonsContainer}>
             {buttons && buttons.map((button, i) => <button key={i} onClick={button.onClick}>{button.label}</button>)}
           </div>
