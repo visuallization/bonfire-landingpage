@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import * as PIXI from 'pixi.js';
 import { TweenMax, TimelineMax } from 'gsap';
 import * as Particles from 'pixi-particles';
@@ -6,7 +6,7 @@ import 'gsap/PixiPlugin';
 
 import { trail, spark } from './emitters';
 
-import * as styles from './styles.less';
+import styles from './styles.less';
 
 class ParticleSystem extends React.Component {
   private app: PIXI.Application;

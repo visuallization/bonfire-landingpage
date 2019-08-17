@@ -1,10 +1,10 @@
-import * as React from 'react';
+import React from 'react';
 import { Link } from "react-router-dom";
 import ReactMarkdown from 'react-markdown';
 
 import content from '../../content/imprint.md'
 
-import * as styles from './styles.less';
+import styles from './styles.less';
 
 class Imprint extends React.Component {
   public render() {

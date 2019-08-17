@@ -1,6 +1,6 @@
-import * as React from 'react';
+import React from 'react';
 
-import * as styles from './styles.less';
+import styles from './styles.less';
 
 interface ILoadingScreenProps {
   className: string

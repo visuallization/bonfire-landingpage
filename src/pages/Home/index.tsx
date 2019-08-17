@@ -1,10 +1,10 @@
-import * as React from 'react';
+import React from 'react';
 import { Link } from "react-router-dom";
 
 import { CookieBanner, Game, LoadingScreen, ParticleSystem, PopUp } from '../../components';
 import newsletterAgreement from '../../content/newsletter-agreement.md'
 
-import * as styles from './styles.less';
+import styles from './styles.less';
 
 interface IAppState {
   isLoading: boolean;

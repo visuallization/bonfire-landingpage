@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import * as PIXI from 'pixi.js';
 import { TimelineMax } from 'gsap';
 import 'gsap/PixiPlugin';
@@ -7,7 +7,7 @@ import { createGradientTexture, scaleToWindow } from '../../lib';
 import { GRADIENT } from '../../constants';
 
 
-import * as styles from './styles.less';
+import styles from './styles.less';
 
 interface IGameProps {
   onLoaded(): void;
