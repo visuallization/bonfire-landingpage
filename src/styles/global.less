@@ -1,13 +1,9 @@
 @import './fonts.less';
+@import './variables.less';
 
 * {
   -webkit-tap-highlight-color: transparent;
   user-select: none;
-}
-
-::selection {
-  background-color: #fe5187;
-  color: #fff;
 }
 
 body {
@@ -19,4 +15,8 @@ body {
 
   // prevent mobile refresh on swipe down
   overflow-y: hidden;
+}
+
+a {
+  color: @primary;
 }

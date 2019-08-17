@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Link } from "react-router-dom";
 
-import { Game, LoadingScreen, ParticleSystem, PopUp } from '../../components';
+import { CookieBanner, Game, LoadingScreen, ParticleSystem, PopUp } from '../../components';
 import newsletterAgreement from '../../content/newsletter-agreement.md'
 
 import * as styles from './styles.less';
@@ -36,11 +36,11 @@ class Home extends React.Component<any, IAppState> {
   };
   private emailButtons = [
     { 
-      label: 'Cancel',
+      label: 'cancel',
       onClick: () => { this.hideEmailPopUp(); } 
     },
     { 
-      label: 'Okay',
+      label: 'ok',
       onClick: () => { this.hideEmailPopUp(); this.subscribeUser(); } 
      }
   ];
@@ -120,6 +120,7 @@ class Home extends React.Component<any, IAppState> {
     const { status } = this.state;
     return (
       <div className={styles.content}>
+        <CookieBanner />
         <h1>Bonfire</h1>
         <h2>A Micro Story</h2>
         <form>

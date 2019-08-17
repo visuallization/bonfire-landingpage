@@ -1,18 +1,21 @@
-import * as React from 'react';
+import React from 'react';
 import ReactMarkdown from 'react-markdown';
 
-import * as styles from './styles.less';
+import Button from '../Button';
 
-interface Button {
+import styles from './styles.less';
+
+interface IButton {
   label: string;
   onClick?(): void;
 }
-interface Props {
-  buttons?: Button[];
+
+interface IPopUpProps {
+  buttons?: IButton[];
   content?: string;
 }
 
-class PopUp extends React.Component<Props, {}> {
+class PopUp extends React.Component<IPopUpProps, {}> {
   public static defaultProps = {
     content: 'This is some PopUp Text.',
   };
@@ -24,7 +27,7 @@ class PopUp extends React.Component<Props, {}> {
         <div className={styles.popUp}>
           <ReactMarkdown source={content} escapeHtml={false}/>
           <div className={styles.buttonsContainer}>
-            {buttons && buttons.map((button, i) => <button key={i} onClick={button.onClick}>{button.label}</button>)}
+            {buttons && buttons.map((button, i) => <Button key={i} className={styles.button} onClick={button.onClick} label={button.label} />)}
           </div>
         </div>
       </div>
