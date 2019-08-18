@@ -1,6 +1,6 @@
 import React from 'react';
 import * as PIXI from 'pixi.js';
-import { TimelineMax } from 'gsap';
+import { TimelineMax, TweenMax } from 'gsap';
 import 'gsap/PixiPlugin';
 
 import { createGradientTexture, scaleToWindow } from '../../lib';
@@ -24,6 +24,7 @@ class Game extends React.Component<IGameProps, IGameState> {
 
   private app: PIXI.Application;
   private $canvas: HTMLCanvasElement;
+  private dialogueInterval: number;
 
   constructor(props: any) {
     super(props);
@@ -42,6 +43,7 @@ class Game extends React.Component<IGameProps, IGameState> {
 
   public componentWillUnmount() {
     window.removeEventListener('resize', this.onResize);
+    window.clearInterval(this.dialogueInterval);
   }
 
   public render() {
@@ -135,25 +137,81 @@ class Game extends React.Component<IGameProps, IGameState> {
     vignette.scale.set(1.2, 4);
 
     const background = new PIXI.Sprite(resources.background.texture);
+ 
+    background.position.set(0, scene.height);
+    background.anchor.set(0, 1);
 
     const leftIndian = this.setupLeftIndian(resources.indians.textures);
     const rightIndian = this.setupRightIndian(resources.indians.textures);
     
-    background.position.set(0, scene.height);
-    background.anchor.set(0, 1);
-    
     const fire = this.setupFire(resources.fire.textures);
+
+    const dialogue = this.setupDialogue();
 
     this.app.stage.addChild(gradient);
     this.app.stage.addChild(background);
     this.app.stage.addChild(leftIndian);
     this.app.stage.addChild(rightIndian);
     this.app.stage.addChild(vignette);
+    this.app.stage.addChild(dialogue);
     this.app.stage.addChild(fire);
     this.app.stage.addChild(glow);
 
     onLoaded();
   };
+
+  private setupDialogue = () => {
+    const dialogueContainer = new PIXI.Container();
+    const dialogue = [
+      `Hey! Do you know what this is all about?`,
+      `Yes, I think this is about a new mobile app which tells stories.`,
+      `Ah cool! What kind of stories?` ,
+      `I don't know. But you can subscribe to the newsletter to get updates.`
+    ];
+    
+    const style = new PIXI.TextStyle({
+      fontFamily: 'Source Sans Pro',
+      fontSize: 32,
+      fill: ['#ffcbce'],
+      wordWrap: true,
+      wordWrapWidth: 380,
+    });
+
+    const lefText = new PIXI.Text('', style);
+    lefText.x = this.app.renderer.width / 2 - 150;
+    lefText.y = this.app.renderer.height / 2 + 50;
+    lefText.alpha = 0;
+    dialogueContainer.addChild(lefText);
+
+    const rightText = new PIXI.Text('', { ...style, fill: ['#f0f8ff'] });
+    rightText.x = this.app.renderer.width / 2 + 50;
+    rightText.y = this.app.renderer.height / 2;
+    rightText.alpha = 0;
+    dialogueContainer.addChild(rightText);
+
+    let counter = 0;
+    this.dialogueInterval = window.setInterval(() => {
+      if(counter === dialogue.length) {
+        TweenMax.to(lefText, 0.5 , {pixi: {alpha: 0}});
+        TweenMax.to(rightText, 0.5 , {pixi: {alpha: 0}});
+        window.clearInterval(this.dialogueInterval);
+        return;
+      }
+
+      if(counter % 2 === 0) {
+        lefText.text = dialogue[counter];
+        TweenMax.to(lefText, 0.5 , {pixi: {alpha: 1}}).delay(0.5);
+        TweenMax.to(rightText, 0.5 , {pixi: {alpha: 0}});
+      } else {
+        rightText.text = dialogue[counter];
+        TweenMax.to(lefText, 0.5 , {pixi: {alpha: 0}});
+        TweenMax.to(rightText, 0.5 , {pixi: {alpha: 1}}).delay(0.5);
+      }
+      counter++;
+    }, 5000); 
+
+    return dialogueContainer;
+  }
 
   private setupFire = (spriteSheet: PIXI.Texture) => {
     const fireFrames = Object.keys(spriteSheet).map(

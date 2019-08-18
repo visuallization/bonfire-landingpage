@@ -122,7 +122,7 @@ class Home extends React.Component<any, IAppState> {
       <div className={styles.content}>
         <CookieBanner />
         <h1>Bonfire</h1>
-        <h2>A Micro Story</h2>
+        <h2>A Storytelling App</h2>
         <form>
           <div className={styles.newsletterContainer}>
             <label htmlFor="newsletter">{this.message[status]}</label>
