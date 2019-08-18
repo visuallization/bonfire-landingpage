@@ -31,7 +31,7 @@ class Home extends React.Component<any, IAppState> {
   private validEmail: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   private message:  { [status in Status]: string } = {
     [Status.Default]: 'Subscribe to our Newsletter',
-    [Status.Success]: 'Awesome, you have been successfully subscribed to our newsletter',
+    [Status.Success]: 'Awesome, almost there! We have send you an email, please confirm it to finish the subscription process.',
     [Status.Error]: 'Unfortunately, an error occured.'
   };
   private emailButtons = [
