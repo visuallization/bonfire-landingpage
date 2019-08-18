@@ -5,7 +5,7 @@ const { MAILCHIMP_API_KEY, MAILING_LIST_ID } = process.env;
 const mailchimp = new MailChimp(MAILCHIMP_API_KEY);
 
 export function handler(event, context, callback) {
-  return mailchimp.post(`/lists/${MAILING_LIST_ID}/members`, { email_address: event.body, status: 'subscribed' })
+  return mailchimp.post(`/lists/${MAILING_LIST_ID}/members`, { email_address: event.body, status: 'pending' })
   .then(function(results) {
     return {
       statusCode: 200,
