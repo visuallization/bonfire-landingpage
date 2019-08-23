@@ -172,40 +172,64 @@ class Game extends React.Component<IGameProps, IGameState> {
     const style = new PIXI.TextStyle({
       fontFamily: 'Source Sans Pro',
       fontSize: 32,
-      fill: ['#ffcbce'],
+      fill: ['#000000'],
       wordWrap: true,
       wordWrapWidth: 380,
     });
 
-    const lefText = new PIXI.Text('', style);
-    lefText.x = this.app.renderer.width / 2 - 150;
-    lefText.y = this.app.renderer.height / 2 + 50;
-    lefText.alpha = 0;
-    dialogueContainer.addChild(lefText);
+    const padding = 20;
 
-    const rightText = new PIXI.Text('', { ...style, fill: ['#f0f8ff'] });
-    rightText.x = this.app.renderer.width / 2 + 50;
-    rightText.y = this.app.renderer.height / 2;
-    rightText.alpha = 0;
-    dialogueContainer.addChild(rightText);
+    const leftTextContainer = new PIXI.Container();
+    leftTextContainer.alpha = 0;
+    leftTextContainer.x = this.app.renderer.width / 2 - 150 - 2 * padding;
+    leftTextContainer.y = this.app.renderer.height / 2 + 50 - 2 * padding;
+
+    const leftBackground = new PIXI.Sprite(PIXI.Texture.WHITE);
+    leftTextContainer.addChild(leftBackground);
+
+    const lefText = new PIXI.Text('', style);
+    lefText.x = padding;
+    lefText.y = padding;
+    leftTextContainer.addChild(lefText);
+
+    dialogueContainer.addChild(leftTextContainer);
+
+    const rightTextContainer = new PIXI.Container();
+    rightTextContainer.alpha = 0;
+    rightTextContainer.x = this.app.renderer.width / 2 + 50 + 2 * padding;
+    rightTextContainer.y = this.app.renderer.height / 2 - 2 * padding;
+
+    const rightBackground = new PIXI.Sprite(PIXI.Texture.WHITE);
+    rightTextContainer.addChild(rightBackground);
+
+    const rightText = new PIXI.Text('', style);
+    rightText.x = padding;
+    rightText.y = padding;
+    rightTextContainer.addChild(rightText);
+
+    dialogueContainer.addChild(rightTextContainer);
 
     let counter = 0;
     this.dialogueInterval = window.setInterval(() => {
       if(counter === dialogue.length) {
-        TweenMax.to(lefText, 0.5 , {pixi: {alpha: 0}});
-        TweenMax.to(rightText, 0.5 , {pixi: {alpha: 0}});
+        TweenMax.to(leftTextContainer, 0.5 , {pixi: {alpha: 0}});
+        TweenMax.to(rightTextContainer, 0.5 , {pixi: {alpha: 0}});
         window.clearInterval(this.dialogueInterval);
         return;
       }
 
       if(counter % 2 === 0) {
         lefText.text = dialogue[counter];
-        TweenMax.to(lefText, 0.5 , {pixi: {alpha: 1}}).delay(0.5);
-        TweenMax.to(rightText, 0.5 , {pixi: {alpha: 0}});
+        leftBackground.width = lefText.width + 2 * padding;
+        leftBackground.height = lefText.height + 2 * padding;
+        TweenMax.to(leftTextContainer, 0.5 , {pixi: {alpha: 1}}).delay(0.5);
+        TweenMax.to(rightTextContainer, 0.5 , {pixi: {alpha: 0}});
       } else {
         rightText.text = dialogue[counter];
-        TweenMax.to(lefText, 0.5 , {pixi: {alpha: 0}});
-        TweenMax.to(rightText, 0.5 , {pixi: {alpha: 1}}).delay(0.5);
+        rightBackground.width = rightText.width + 2 * padding;
+        rightBackground.height = rightText.height + 2 * padding;
+        TweenMax.to(leftTextContainer, 0.5 , {pixi: {alpha: 0}});
+        TweenMax.to(rightTextContainer, 0.5 , {pixi: {alpha: 1}}).delay(0.5);
       }
       counter++;
     }, 5000); 
