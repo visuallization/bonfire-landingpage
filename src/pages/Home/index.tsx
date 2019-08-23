@@ -120,7 +120,6 @@ class Home extends React.Component<any, IAppState> {
     const { status } = this.state;
     return (
       <div className={styles.content}>
-        <CookieBanner />
         <h1>Bonfire</h1>
         <h2>A Storytelling App</h2>
         <form>
@@ -132,7 +131,10 @@ class Home extends React.Component<any, IAppState> {
             </div>
           </div>
         </form>
-        <span className={styles.footer}>coming <strong>2020</strong> for <i className={`${styles.icon} fa fa-apple`} /><i className={`${styles.icon} fa fa-android`}/> |  <Link to="/imprint">imprint & data privacy</Link> </span>
+        <div className={styles.footer}>
+          <span>coming <strong>2020</strong> for <i className={`${styles.icon} fa fa-apple`} /><i className={`${styles.icon} fa fa-android`}/> |  <Link to="/imprint">imprint & data privacy</Link> </span>
+          <CookieBanner />
+        </div>
       </div>
     );
   }
