@@ -184,8 +184,11 @@ class Game extends React.Component<IGameProps, IGameState> {
     leftTextContainer.x = this.app.renderer.width / 2 - 150 - 2 * padding;
     leftTextContainer.y = this.app.renderer.height / 2 + 50 - 2 * padding;
 
-    const leftBackground = new PIXI.Sprite(PIXI.Texture.WHITE);
-    leftTextContainer.addChild(leftBackground);
+    const leftTriangle = new PIXI.Graphics();
+    leftTextContainer.addChild(leftTriangle);
+
+    const leftRoundedRect = new PIXI.Graphics();
+    leftTextContainer.addChild(leftRoundedRect);
 
     const lefText = new PIXI.Text('', style);
     lefText.x = padding;
@@ -196,11 +199,14 @@ class Game extends React.Component<IGameProps, IGameState> {
 
     const rightTextContainer = new PIXI.Container();
     rightTextContainer.alpha = 0;
-    rightTextContainer.x = this.app.renderer.width / 2 + 50 + 2 * padding;
+    rightTextContainer.x = this.app.renderer.width / 2;
     rightTextContainer.y = this.app.renderer.height / 2 - 2 * padding;
 
-    const rightBackground = new PIXI.Sprite(PIXI.Texture.WHITE);
-    rightTextContainer.addChild(rightBackground);
+    const rightTriangle = new PIXI.Graphics();
+    rightTextContainer.addChild(rightTriangle);
+
+    const rightRoundedRect = new PIXI.Graphics();
+    rightTextContainer.addChild(rightRoundedRect);
 
     const rightText = new PIXI.Text('', style);
     rightText.x = padding;
@@ -220,14 +226,18 @@ class Game extends React.Component<IGameProps, IGameState> {
 
       if(counter % 2 === 0) {
         lefText.text = dialogue[counter];
-        leftBackground.width = lefText.width + 2 * padding;
-        leftBackground.height = lefText.height + 2 * padding;
+        const width = lefText.width + 2 * padding;
+        const height = lefText.height + 2 * padding;
+        this.drawRoundedRectangle(leftRoundedRect, width, height);
+        this.drawTriangle(leftTriangle, 100, height);
         TweenMax.to(leftTextContainer, 0.5 , {pixi: {alpha: 1}}).delay(0.5);
         TweenMax.to(rightTextContainer, 0.5 , {pixi: {alpha: 0}});
       } else {
         rightText.text = dialogue[counter];
-        rightBackground.width = rightText.width + 2 * padding;
-        rightBackground.height = rightText.height + 2 * padding;
+        const width = rightText.width + 2 * padding;
+        const height = rightText.height + 2 * padding;
+        this.drawRoundedRectangle(rightRoundedRect, width, height);
+        this.drawTriangle(rightTriangle, 250, height);
         TweenMax.to(leftTextContainer, 0.5 , {pixi: {alpha: 0}});
         TweenMax.to(rightTextContainer, 0.5 , {pixi: {alpha: 1}}).delay(0.5);
       }
@@ -235,6 +245,31 @@ class Game extends React.Component<IGameProps, IGameState> {
     }, 5000); 
 
     return dialogueContainer;
+  }
+
+  private drawRoundedRectangle = (rectangle: PIXI.Graphics, width: number, height: number) => {
+    rectangle.clear();
+    rectangle.beginFill(0xFFFFFF, 1);
+    rectangle.drawRoundedRect(0, 0, width, height, 16);
+    rectangle.endFill();
+  }
+
+   private drawTriangle = (triangle: PIXI.Graphics, xPos: number, yPos: number) => {
+    triangle.clear();
+
+    triangle.x = xPos;
+    triangle.y = yPos;
+
+    const triangleWidth = 12;
+    const triangleHeight = triangleWidth;
+    const triangleHalfway = triangleWidth / 2;
+
+    triangle.beginFill(0xFFFFFF, 1);
+    triangle.moveTo(triangleWidth, 0);
+    triangle.lineTo(triangleHalfway, triangleHeight); 
+    triangle.lineTo(0, 0);
+    triangle.lineTo(triangleHalfway, 0);
+    triangle.endFill();
   }
 
   private setupFire = (spriteSheet: PIXI.Texture) => {
