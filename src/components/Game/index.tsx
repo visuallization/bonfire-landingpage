@@ -1,6 +1,6 @@
 import React from 'react';
 import * as PIXI from 'pixi.js';
-import { TimelineMax } from 'gsap';
+import { TimelineMax, TweenMax } from 'gsap';
 import 'gsap/PixiPlugin';
 
 import { createGradientTexture, scaleToWindow } from '../../lib';
@@ -24,6 +24,7 @@ class Game extends React.Component<IGameProps, IGameState> {
 
   private app: PIXI.Application;
   private $canvas: HTMLCanvasElement;
+  private dialogueInterval: number;
 
   constructor(props: any) {
     super(props);
@@ -42,6 +43,7 @@ class Game extends React.Component<IGameProps, IGameState> {
 
   public componentWillUnmount() {
     window.removeEventListener('resize', this.onResize);
+    window.clearInterval(this.dialogueInterval);
   }
 
   public render() {
@@ -135,25 +137,144 @@ class Game extends React.Component<IGameProps, IGameState> {
     vignette.scale.set(1.2, 4);
 
     const background = new PIXI.Sprite(resources.background.texture);
+ 
+    background.position.set(0, scene.height);
+    background.anchor.set(0, 1);
 
     const leftIndian = this.setupLeftIndian(resources.indians.textures);
     const rightIndian = this.setupRightIndian(resources.indians.textures);
     
-    background.position.set(0, scene.height);
-    background.anchor.set(0, 1);
-    
     const fire = this.setupFire(resources.fire.textures);
+
+    const dialogue = this.setupDialogue();
 
     this.app.stage.addChild(gradient);
     this.app.stage.addChild(background);
     this.app.stage.addChild(leftIndian);
     this.app.stage.addChild(rightIndian);
     this.app.stage.addChild(vignette);
+    this.app.stage.addChild(dialogue);
     this.app.stage.addChild(fire);
     this.app.stage.addChild(glow);
 
     onLoaded();
   };
+
+  private setupDialogue = () => {
+    const dialogueContainer = new PIXI.Container();
+    const dialogue = [
+      `Hey! Do you know what this is all about?`,
+      `Yes, I think this is about a new mobile app. It tells stories.`,
+      `Ah cool! What kind of stories?` ,
+      `This is a surprise. But you can subscribe to the newsletter to get updates.`
+    ];
+
+    const padding = 20;
+    const fontSize = 45;
+    
+    const style = new PIXI.TextStyle({
+      fontFamily: 'Amatic SC',
+      fontSize,
+      fontWeight: '700',
+      lineHeight: fontSize * 1.1,
+      padding: padding / 2,
+      fill: ['#000000'],
+      wordWrap: true,
+      wordWrapWidth: 380,
+    });
+
+    const leftTextContainer = new PIXI.Container();
+    leftTextContainer.alpha = 0;
+    leftTextContainer.x = this.app.renderer.width / 2 - 150 - 2 * padding;
+    leftTextContainer.y = this.app.renderer.height / 2;
+
+    const leftTriangle = new PIXI.Graphics();
+    leftTextContainer.addChild(leftTriangle);
+
+    const leftRoundedRect = new PIXI.Graphics();
+    leftTextContainer.addChild(leftRoundedRect);
+
+    const lefText = new PIXI.Text('', style);
+    lefText.x = padding;
+    lefText.y = 1.5 * padding;
+    leftTextContainer.addChild(lefText);
+
+    dialogueContainer.addChild(leftTextContainer);
+
+    const rightTextContainer = new PIXI.Container();
+    rightTextContainer.alpha = 0;
+    rightTextContainer.x = this.app.renderer.width / 2;
+    rightTextContainer.y = this.app.renderer.height / 2 - 2 * padding - 20;
+
+    const rightTriangle = new PIXI.Graphics();
+    rightTextContainer.addChild(rightTriangle);
+
+    const rightRoundedRect = new PIXI.Graphics();
+    rightTextContainer.addChild(rightRoundedRect);
+
+    const rightText = new PIXI.Text('', style);
+    rightText.x = padding;
+    rightText.y = 1.5 * padding;
+    rightTextContainer.addChild(rightText);
+
+    dialogueContainer.addChild(rightTextContainer);
+
+    let counter = 0;
+    this.dialogueInterval = window.setInterval(() => {
+      if(counter === dialogue.length) {
+        TweenMax.to(leftTextContainer, 0.5 , {pixi: {alpha: 0}});
+        TweenMax.to(rightTextContainer, 0.5 , {pixi: {alpha: 0}});
+        window.clearInterval(this.dialogueInterval);
+        return;
+      }
+
+      if(counter % 2 === 0) {
+        lefText.text = dialogue[counter];
+        const width = lefText.width + 2 * padding;
+        const height = lefText.height + 2 * padding;
+        this.drawRoundedRectangle(leftRoundedRect, width, height);
+        this.drawTriangle(leftTriangle, 100, height);
+        TweenMax.to(leftTextContainer, 0.5 , {pixi: {alpha: 1}}).delay(0.5);
+        TweenMax.to(rightTextContainer, 0.5 , {pixi: {alpha: 0}});
+      } else {
+        rightText.text = dialogue[counter];
+        const width = rightText.width + 2 * padding;
+        const height = rightText.height + 2 * padding;
+        this.drawRoundedRectangle(rightRoundedRect, width, height);
+        this.drawTriangle(rightTriangle, 250, height);
+        TweenMax.to(leftTextContainer, 0.5 , {pixi: {alpha: 0}});
+        TweenMax.to(rightTextContainer, 0.5 , {pixi: {alpha: 1}}).delay(0.5);
+      }
+      counter++;
+    }, 5000); 
+
+    return dialogueContainer;
+  }
+
+  private drawRoundedRectangle = (rectangle: PIXI.Graphics, width: number, height: number) => {
+    rectangle.clear();
+    rectangle.beginFill(0xFFFFFF, 1);
+    rectangle.drawRoundedRect(0, 0, width, height, 16);
+    rectangle.endFill();
+  }
+
+   private drawTriangle = (triangle: PIXI.Graphics, xPos: number, yPos: number) => {
+    triangle.clear();
+
+    triangle.x = xPos;
+    triangle.y = yPos;
+
+    const triangleWidth = 12;
+    const triangleHeight = triangleWidth;
+    const triangleHalfway = triangleWidth / 2;
+
+    triangle.beginFill(0xFFFFFF, 1);
+    triangle.moveTo(triangleWidth, 0);
+    triangle.lineTo(triangleHalfway, triangleHeight); 
+    triangle.lineTo(0, 0);
+    triangle.lineTo(triangleHalfway, 0);
+    triangle.endFill();
+  }
 
   private setupFire = (spriteSheet: PIXI.Texture) => {
     const fireFrames = Object.keys(spriteSheet).map(

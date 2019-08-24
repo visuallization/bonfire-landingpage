@@ -31,7 +31,7 @@ class Home extends React.Component<any, IAppState> {
   private validEmail: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   private message:  { [status in Status]: string } = {
     [Status.Default]: 'Subscribe to our Newsletter',
-    [Status.Success]: 'Awesome, you have been successfully subscribed to our newsletter',
+    [Status.Success]: 'Awesome, almost there! We have send you an email, please confirm it to finish the subscription process.',
     [Status.Error]: 'Unfortunately, an error occured.'
   };
   private emailButtons = [
@@ -120,9 +120,8 @@ class Home extends React.Component<any, IAppState> {
     const { status } = this.state;
     return (
       <div className={styles.content}>
-        <CookieBanner />
         <h1>Bonfire</h1>
-        <h2>A Micro Story</h2>
+        <h2>A Storytelling App</h2>
         <form>
           <div className={styles.newsletterContainer}>
             <label htmlFor="newsletter">{this.message[status]}</label>
@@ -132,7 +131,10 @@ class Home extends React.Component<any, IAppState> {
             </div>
           </div>
         </form>
-        <span className={styles.footer}>coming <strong>2020</strong> for <i className={`${styles.icon} fa fa-apple`} /><i className={`${styles.icon} fa fa-android`}/> |  <Link to="/imprint">imprint & data privacy</Link> </span>
+        <div className={styles.footer}>
+          <span>coming <strong>2020</strong> for <i className={`${styles.icon} fa fa-apple`} /><i className={`${styles.icon} fa fa-android`}/> |  <Link to="/imprint">imprint & data privacy</Link> </span>
+          <CookieBanner />
+        </div>
       </div>
     );
   }

@@ -44,18 +44,6 @@
     font-weight: 600;
   }
 
-  span {
-    position: absolute;
-    bottom: 10px;
-    left:50%;
-    transform: translateX(-50%);
-
-
-    display: inline-block;
-    margin-top: 25px;
-    font-size: 14px;
-  }
-
   .icon{
     margin: 0 2px;
   }
@@ -146,6 +134,8 @@ input {
 
   label {
     font-size: 12px;
+    max-width: 290px;
+    line-height: 1.5;
   }
 }
 
@@ -190,6 +180,17 @@ button {
 }
 
 .footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  span {
+    display: inline-block;
+    margin-bottom: 10px;
+    font-size: 14px;
+  }
+
   a {
     color: #fff;
   }
