@@ -164,25 +164,29 @@ class Game extends React.Component<IGameProps, IGameState> {
     const dialogueContainer = new PIXI.Container();
     const dialogue = [
       `Hey! Do you know what this is all about?`,
-      `Yes, I think this is about a new mobile app which tells stories.`,
+      `Yes, I think this is about a new mobile app. It is about stories.`,
       `Ah cool! What kind of stories?` ,
-      `I don't know. But you can subscribe to the newsletter to get updates.`
+      `This is a surprise. But you can subscribe to the newsletter to get updates.`
     ];
+
+    const padding = 20;
+    const fontSize = 45;
     
     const style = new PIXI.TextStyle({
-      fontFamily: 'Source Sans Pro',
-      fontSize: 32,
+      fontFamily: 'Amatic SC',
+      fontSize,
+      fontWeight: '700',
+      lineHeight: fontSize * 1.1,
+      padding: padding / 2,
       fill: ['#000000'],
       wordWrap: true,
       wordWrapWidth: 380,
     });
 
-    const padding = 20;
-
     const leftTextContainer = new PIXI.Container();
     leftTextContainer.alpha = 0;
     leftTextContainer.x = this.app.renderer.width / 2 - 150 - 2 * padding;
-    leftTextContainer.y = this.app.renderer.height / 2 + 50 - 2 * padding;
+    leftTextContainer.y = this.app.renderer.height / 2;
 
     const leftTriangle = new PIXI.Graphics();
     leftTextContainer.addChild(leftTriangle);
@@ -192,7 +196,7 @@ class Game extends React.Component<IGameProps, IGameState> {
 
     const lefText = new PIXI.Text('', style);
     lefText.x = padding;
-    lefText.y = padding;
+    lefText.y = 1.5 * padding;
     leftTextContainer.addChild(lefText);
 
     dialogueContainer.addChild(leftTextContainer);
@@ -200,7 +204,7 @@ class Game extends React.Component<IGameProps, IGameState> {
     const rightTextContainer = new PIXI.Container();
     rightTextContainer.alpha = 0;
     rightTextContainer.x = this.app.renderer.width / 2;
-    rightTextContainer.y = this.app.renderer.height / 2 - 2 * padding;
+    rightTextContainer.y = this.app.renderer.height / 2 - 2 * padding - 20;
 
     const rightTriangle = new PIXI.Graphics();
     rightTextContainer.addChild(rightTriangle);
@@ -210,7 +214,7 @@ class Game extends React.Component<IGameProps, IGameState> {
 
     const rightText = new PIXI.Text('', style);
     rightText.x = padding;
-    rightText.y = padding;
+    rightText.y = 1.5 * padding;
     rightTextContainer.addChild(rightText);
 
     dialogueContainer.addChild(rightTextContainer);
