@@ -164,7 +164,7 @@ class Game extends React.Component<IGameProps, IGameState> {
     const dialogueContainer = new PIXI.Container();
     const dialogue = [
       `Hey! Do you know what this is all about?`,
-      `Yes, I think this is about a new mobile app. It is about stories.`,
+      `Yes, I think this is about a new mobile app. It tells stories.`,
       `Ah cool! What kind of stories?` ,
       `This is a surprise. But you can subscribe to the newsletter to get updates.`
     ];
