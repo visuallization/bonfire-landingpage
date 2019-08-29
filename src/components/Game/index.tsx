@@ -90,10 +90,7 @@ class Game extends React.Component<IGameProps, IGameState> {
     resource: any
   ) => {
     if (resource.error) {
-      console.error(resource.error);
-    } else {
-      console.log('loading: ', resource.name);
-      console.log('progress: ', loader.progress + '%');
+      console.error('PIXI Loading Error:', resource.error);
     }
   };
 

@@ -27,6 +27,7 @@
     "jest": "^24.8.0",
     "mailchimp-api-v3": "^1.12.1",
     "object-assign": "4.1.1",
+    "object.entries": "^1.1.0",
     "pixi-particles": "^3.1.0",
     "pixi.js": "^4.8.2",
     "postcss-flexbugs-fixes": "3.2.0",
