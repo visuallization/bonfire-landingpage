@@ -26,7 +26,7 @@ enum Status {
 
 class Home extends React.Component<any, IAppState> {
   private initTime: number = 200;
-  private videoID: string = 'GSc7BYNblaY';
+  private videoID: string = '';
   private youtubePlayer: any = null;
   private validEmail: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   private message:  { [status in Status]: string } = {
