@@ -132,7 +132,7 @@ class Home extends React.Component<any, IAppState> {
           </div>
         </form>
         <div className={styles.footer}>
-          <span>coming <strong>2020</strong> for <i className={`${styles.icon} fa fa-apple`} /><i className={`${styles.icon} fa fa-android`}/> |  <Link to="/imprint">imprint & data privacy</Link> </span>
+          <span>coming <strong>2021</strong> for <i className={`${styles.icon} fa fa-apple`} /><i className={`${styles.icon} fa fa-android`}/> |  <Link to="/imprint">imprint & data privacy</Link> </span>
           <CookieBanner />
         </div>
       </div>
