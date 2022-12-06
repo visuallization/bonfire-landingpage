@@ -26,7 +26,7 @@ enum Status {
 
 class Home extends React.Component<any, IAppState> {
   private initTime: number = 200;
-  private videoID: string = '';
+  // private videoID: string = '';
   private youtubePlayer: any = null;
   private validEmail: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   private message:  { [status in Status]: string } = {
@@ -60,25 +60,25 @@ class Home extends React.Component<any, IAppState> {
       status: Status.Default
     }
 
-    this.initYoutubePlayer();
+    // this.initYoutubePlayer();
 
-    window.onYouTubeIframeAPIReady = () => {
-      this.youtubePlayer = new window.YT.Player('youtubePlayer', {
-        host: 'https://www.youtube-nocookie.com',
-        videoId: this.videoID,
-        playerVars: { 
-          autoplay: 0,
-          controls: 1, 
-          rel : 0,
-          showinfo: 0
-        },
-        events: {
-          onReady: () => {
-            this.setState({ isYoutubePlayerReady: true });
-          }
-        }}
-      );     
-    };
+    // window.onYouTubeIframeAPIReady = () => {
+    //   this.youtubePlayer = new window.YT.Player('youtubePlayer', {
+    //     host: 'https://www.youtube-nocookie.com',
+    //     videoId: this.videoID,
+    //     playerVars: { 
+    //       autoplay: 0,
+    //       controls: 1, 
+    //       rel : 0,
+    //       showinfo: 0
+    //     },
+    //     events: {
+    //       onReady: () => {
+    //         this.setState({ isYoutubePlayerReady: true });
+    //       }
+    //     }}
+    //   );     
+    // };
   }
 
   public componentDidMount() {
@@ -102,14 +102,14 @@ class Home extends React.Component<any, IAppState> {
     );
   }
 
-  private initYoutubePlayer = () => {
-    const tag = document.createElement('script');
-    tag.src = 'https://www.youtube.com/iframe_api';
-    const firstScriptTag = document.getElementsByTagName('script')[0];
-    if(firstScriptTag.parentNode) {
-      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-    }
-  }
+  // private initYoutubePlayer = () => {
+  //   const tag = document.createElement('script');
+  //   tag.src = 'https://www.youtube.com/iframe_api';
+  //   const firstScriptTag = document.getElementsByTagName('script')[0];
+  //   if(firstScriptTag.parentNode) {
+  //     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+  //   }
+  // }
 
   private renderLoadingScreen = () => {
     const { isLoading, hasInitTimePassed } = this.state;
@@ -121,7 +121,7 @@ class Home extends React.Component<any, IAppState> {
     return (
       <div className={styles.content}>
         <h1>Bonfire</h1>
-        <h2>A Storytelling App</h2>
+        <h2>tells meaningful stories</h2>
         <form>
           <div className={styles.newsletterContainer}>
             <label htmlFor="newsletter">{this.message[status]}</label>
@@ -132,7 +132,7 @@ class Home extends React.Component<any, IAppState> {
           </div>
         </form>
         <div className={styles.footer}>
-          <span>coming <strong>2021</strong> for <i className={`${styles.icon} fa fa-apple`} /><i className={`${styles.icon} fa fa-android`}/> |  <Link to="/imprint">imprint & data privacy</Link> </span>
+          <span>coming <strong>2023</strong> for <i className={`${styles.icon} fa fa-apple`} /><i className={`${styles.icon} fa fa-android`}/> |  <Link to="/imprint">imprint & data privacy</Link> </span>
           <CookieBanner />
         </div>
       </div>
