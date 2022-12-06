@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 
-import { CookieBanner, Game, LoadingScreen, ParticleSystem, PopUp } from '../../components';
+import { CookieBanner, Game, LoadingScreen, PopUp } from '../../components';
 import newsletterAgreement from '../../content/newsletter-agreement.md'
 
 import styles from './styles.less';
@@ -97,7 +97,7 @@ class Home extends React.Component<any, IAppState> {
         {this.renderVideoButton()}
         {showEmailPopUp && <PopUp content={newsletterAgreement} buttons={this.emailButtons}/>}
         <Game onLoaded={this.hideLoadingScreen}/>
-        <ParticleSystem />
+        {/* <ParticleSystem /> */}
       </div>
     );
   }

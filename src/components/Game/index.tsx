@@ -161,13 +161,13 @@ class Game extends React.Component<IGameProps, IGameState> {
     const dialogueContainer = new PIXI.Container();
     const dialogue = [
       `Hey! Do you know what this is all about?`,
-      `Yes, I think this is about a new mobile app. It tells stories.`,
+      `I think this is about a new app. It tells stories.`,
       `Ah cool! What kind of stories?` ,
       `This is a surprise. But you can subscribe to the newsletter to get updates.`
     ];
 
     const padding = 20;
-    const fontSize = 45;
+    const fontSize = 40;
     
     const style = new PIXI.TextStyle({
       fontFamily: 'Amatic SC',
@@ -218,31 +218,33 @@ class Game extends React.Component<IGameProps, IGameState> {
 
     let counter = 0;
     this.dialogueInterval = window.setInterval(() => {
-      if(counter === dialogue.length) {
-        TweenMax.to(leftTextContainer, 0.5 , {pixi: {alpha: 0}});
-        TweenMax.to(rightTextContainer, 0.5 , {pixi: {alpha: 0}});
-        window.clearInterval(this.dialogueInterval);
-        return;
-      }
+      if (document.hasFocus()) {
+        if(counter === dialogue.length) {
+          TweenMax.to(leftTextContainer, 0.5 , {pixi: {alpha: 0}});
+          TweenMax.to(rightTextContainer, 0.5 , {pixi: {alpha: 0}});
+          window.clearInterval(this.dialogueInterval);
+          return;
+        }
 
-      if(counter % 2 === 0) {
-        lefText.text = dialogue[counter];
-        const width = lefText.width + 2 * padding;
-        const height = lefText.height + 2 * padding;
-        this.drawRoundedRectangle(leftRoundedRect, width, height);
-        this.drawTriangle(leftTriangle, 100, height);
-        TweenMax.to(leftTextContainer, 0.5 , {pixi: {alpha: 1}}).delay(0.5);
-        TweenMax.to(rightTextContainer, 0.5 , {pixi: {alpha: 0}});
-      } else {
-        rightText.text = dialogue[counter];
-        const width = rightText.width + 2 * padding;
-        const height = rightText.height + 2 * padding;
-        this.drawRoundedRectangle(rightRoundedRect, width, height);
-        this.drawTriangle(rightTriangle, 250, height);
-        TweenMax.to(leftTextContainer, 0.5 , {pixi: {alpha: 0}});
-        TweenMax.to(rightTextContainer, 0.5 , {pixi: {alpha: 1}}).delay(0.5);
+        if(counter % 2 === 0) {
+          lefText.text = dialogue[counter];
+          const width = lefText.width + 2 * padding;
+          const height = lefText.height + 2 * padding;
+          this.drawRoundedRectangle(leftRoundedRect, width, height);
+          this.drawTriangle(leftTriangle, 100, height);
+          TweenMax.to(leftTextContainer, 0.5 , {pixi: {alpha: 1}}).delay(0.5);
+          TweenMax.to(rightTextContainer, 0.5 , {pixi: {alpha: 0}});
+        } else {
+          rightText.text = dialogue[counter];
+          const width = rightText.width + 2 * padding;
+          const height = rightText.height + 2 * padding;
+          this.drawRoundedRectangle(rightRoundedRect, width, height);
+          this.drawTriangle(rightTriangle, 250, height);
+          TweenMax.to(leftTextContainer, 0.5 , {pixi: {alpha: 0}});
+          TweenMax.to(rightTextContainer, 0.5 , {pixi: {alpha: 1}}).delay(0.5);
+        }
+        counter++;
       }
-      counter++;
     }, 5000); 
 
     return dialogueContainer;
