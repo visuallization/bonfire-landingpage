@@ -6,6 +6,7 @@ import { Home, Imprint } from './pages';
 import './styles/global.less';
 
 function App() {
+  console.log('App');
   return (
     <Router>
       <Route exact={true} path="/" component={Home} />
